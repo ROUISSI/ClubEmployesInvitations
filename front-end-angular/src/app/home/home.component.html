@@ -1,0 +1,106 @@
+﻿<div class="card mt-4">
+    <h4 class="card-header py-3">Gestionnaire des invitations</h4>
+    <div class="card-body">
+        <div class=" container fluid-container">
+            <form [formGroup]="searchForm">
+                <h2>Rechercher un utilisateur</h2>
+                <label for="users-search">Vous pouvez commencer à taper ci-dessous:</label>
+                <input type="search" #userSearch class="form-control" id="users-search" aria-describedby="usersHelp"
+                    placeholder="rechercher ici..." autocomplete="off" formControlName="userSearch" />
+            </form>
+
+            <div *ngIf="searchedUsers">
+                <ul class="list-group ul-users">
+                    <li *ngFor="let user of searchedUsers" class="list-group-item">
+                        {{ user.firstName }} {{ user.lastName }}
+                        <span style="text-align: right;">
+                            &nbsp;<button *ngIf="user.am_in_senders == 0 && user.am_in_receivers == 0 "
+                                class="btn btn-primary" (click)="sendInvitation(user.id)">Inviter</button>
+                            <button *ngIf="user.am_in_senders == 1" class="btn btn-warning"
+                                (click)="cancelInvitation(user.invitation)">Annuler
+                                l'invitation</button>
+                            &nbsp;<button *ngIf="user.am_in_senders == 2" class="btn btn-danger"
+                                (click)="removeInvitation(user.invitation)">Retirer</button>
+                            &nbsp;<button *ngIf="user.am_in_senders == 3" class="btn btn-primary"
+                                (click)="sendInvitation(user.id)">Renvoyer
+                                l'invitation</button>
+
+                            <button *ngIf="user.am_in_receivers == 1" class="btn btn-success"
+                                (click)="acceptInvitation(user.invitation)">Accepter</button>
+                            &nbsp;<button *ngIf="user.am_in_receivers == 1" class="btn btn-danger"
+                                (click)="refuseInvitation(user.invitation)">Refuser</button>
+                            &nbsp;<button *ngIf="user.am_in_receivers == 2" class="btn btn-danger"
+                                (click)="removeInvitation(user.invitation)">Retirer</button>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h6>Invitations Envoyées</h6>
+        <div *ngIf="loadingInvSent" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="invitationsSent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Destinataire</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invitationSent of invitationsSent">
+                        <td>{{ invitationSent.created_at | date : 'dd/MM/yyyy, hh:mm a' }}</td>
+                        <td>{{ invitationSent.receiver.firstName }} {{ invitationSent.receiver.lastName }}</td>
+                        <td>{{ invitationSent.status.label }}</td>
+                        <td>
+                            <button *ngIf="invitationSent.status.id == 1" class="btn btn-warning"
+                                (click)="cancelInvitation(invitationSent.id)">Annuler
+                                l'invitation</button>
+                            &nbsp;<button *ngIf="invitationSent.status.id == 2" class="btn btn-danger"
+                                (click)="removeInvitation(invitationSent.id)">Retirer</button>
+                            &nbsp;<button *ngIf="invitationSent.status.id == 3" class="btn btn-primary"
+                                (click)="sendInvitation(invitationSent.receiver.id)">Renvoyer
+                                l'invitation</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="card-body">
+        <h6>Invitations Recus</h6>
+        <div *ngIf="loadingInvReceived" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="invitationsReceived">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Expeditreur</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invitationReceived of invitationsReceived">
+                        <td>{{ invitationReceived.created_at | date : 'dd/MM/yyyy, hh:mm a' }}</td>
+                        <td>{{ invitationReceived.sender.firstName }} {{ invitationReceived.sender.lastName }}</td>
+                        <td>{{ invitationReceived.status.label }}</td>
+                        <td>
+                            <button *ngIf="invitationReceived.status.id == 1" class="btn btn-success"
+                                (click)="acceptInvitation(invitationReceived.id)">Accepter</button>
+                            &nbsp;<button *ngIf="invitationReceived.status.id == 1" class="btn btn-danger"
+                                (click)="refuseInvitation(invitationReceived.id)">Refuser</button>
+                            &nbsp;<button *ngIf="invitationReceived.status.id == 2" class="btn btn-danger"
+                                (click)="removeInvitation(invitationReceived.id)">Retirer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

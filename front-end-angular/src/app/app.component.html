@@ -1,0 +1,13 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark px-3" *ngIf="user">
+    <div class="navbar-nav" style="width: 100%;">
+        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
+        <span class="nav-item nav-link" style="margin-left: auto;">Bonjour {{user.firstName}} {{user.lastName}}</span>
+    </div>
+</nav>
+
+<!-- main app container -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

@@ -1,16 +1,9 @@
-#Project OWNER : Mohamed Wael ROUISSI
-
-# ClubEmployesInvitations
-
-
-#Back END
-
-## les étapes à suivre
-#####1- accés au projet et installer les packages:
+# les étapes à suivre
+#1- accés au projet et installer les packages:
     a- cd back-end
     b- composer install
 
-#####2-configuration base de donne:
+#2-configuration base de donne:
 
     Les paramètres de la connexion à la base de donne sont stockées dans la variable DATABASE_URL qui existe dans la fichier .env.
     Exemple:
@@ -21,37 +14,19 @@
 
     DATABASE_URL='mysql://root:@127.0.0.1:3306/club_employe_database'
 
-#####3- création base de données :
+#3- création base de données :
 
     php bin/console doctrine:database:create
 
-#####4- Migrations: Création des tables / schémas de la base de données
+#4- Migrations: Création des tables / schémas de la base de données
 
     a- php bin/console make:migration 
     b- php bin/console doctrine:migrations:migrate 
 
-#####6- Exécution du fixture pour les etats des invitations
+#6- Exécution du fixture pour les etats des invitations
 
     php bin/console doctrine:fixtures:load
 
-#####7- Exécution du projet
+#6- Exécution du projet
 
     symfony server:start
-
-
-#FRONT END ANGULAR
-
-## les étapes à suivre
-
-#### 1- changer le repertoire
-    cd front-end
-
-#### 2- install the repo with npm
-    npm install
-
-#### 3- start the server
-    ng serve --o
-
-
-#4- commencer à crée un utilisateur et amuser vous ..
-
